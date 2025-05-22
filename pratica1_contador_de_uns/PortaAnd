@@ -1,0 +1,9 @@
+ENTITY PortaAnd IS
+  PORT(en1, en2 : IN BIT;
+       saida_and : OUT BIT);
+END PortaAnd;
+
+ARCHITECTURE behav OF PortaAnd IS
+BEGIN
+  saida_and <= en1 AND en2;
+END ARCHITECTURE behav;
