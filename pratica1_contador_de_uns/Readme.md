@@ -24,6 +24,9 @@
 - S2 = A XOR B XOR C
 
 ## Circuito em portas lógicas
+<img title="circuit logic gates" src="circuitoContadorDeUns.jpg">
+
+> em azul são sinais (fios) que ajudam no processo de criação do circuito em VHDL e devem ser mapeados para implementação.
 
 ## Códigos em VHDL
 - [Porta AND](https://github.com/luiz-pytech/Praticas_Sistemas_Digitais/pratica1_contador_de_uns/PortaAnd.vhdl)
