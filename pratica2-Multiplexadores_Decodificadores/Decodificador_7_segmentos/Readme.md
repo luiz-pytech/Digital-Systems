@@ -39,11 +39,11 @@ Este repositório contém as implementações em VHDL de um decodificador BCD pa
 
 ### 🔹 **Questão 2b: Decodificador com Portas Lógicas**
 - **Descrição**: Implementação usando portas lógicas (`AND`, `OR`, `NOT`) para cada segmento (0-7).  
-- **Código**: [`Decodificador BCD - Portas Lógicas`](https://github.com/luiz-pytech/Praticas_Sistemas_Digitais/blob/main/pratica2-Multiplexadores_Decodificadores/Decodificadores/bcd7seg_gate_level.vhd)  
+- **Código**: [`Decodificador BCD - Portas Lógicas`](https://github.com/luiz-pytech/Praticas_Sistemas_Digitais/blob/main/pratica2-Multiplexadores_Decodificadores/Decodificador_7_segmentos/Decoder.vhd)  
 
 ### 🔹 **Questão 2c: Decodificador Comportamental**
 - **Descrição**: Implementação usando a abordagem comportamental (`when-else`) para cada segmento (0-7).  
-- **Código**: [`Decodificador BCD - Comportamental`](https://github.com/luiz-pytech/Praticas_Sistemas_Digitais/blob/main/pratica2-Multiplexadores_Decodificadores/Decodificadores/bcd7seg_gate_level.vhd)
+- **Código**: [`Decodificador BCD - Comportamental`](https://github.com/luiz-pytech/Praticas_Sistemas_Digitais/blob/main/pratica2-Multiplexadores_Decodificadores/Decodificador_7_segmentos/Decoder_Comp.vhd)
 
 ### 🔹 **Questão 2d: Outros casos garantir que o LED esteja desligado**
 - **Descrição**: Os casos onde o led é desligado fora de 0-9 foram previstos nos códigos.  
