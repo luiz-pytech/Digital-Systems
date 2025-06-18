@@ -51,3 +51,38 @@ Este repositório contém as implementações em VHDL de um decodificador BCD pa
 ### 🔹 **Questão 2e: Implementação e Síntese da placa**
 - **Descrição**: Simulação e Síntese na FPGA.  
 
+# Equações (CAPTURA DO COMPORTAMENTO)
+
+- Como esse decodificador acende em sinal baixo '0' é necessário que após a captura negar toda a equação.
+- As equações abaixo devem ser negadas nessa na implementação.
+
+## Equações
+
+```plaintext
+Completa: s0 = A4'A3'A2'A1' + A4'A3'A2A1' + A4'A3'A2A1 + A4'A3A2'A1 + A4'A3A2A1' + A4'A3A2A1 + A4A3'A2'A1' + A4A3'A2'A1
+Simplificacao: s0 = A4'A3'A1' + A4'A3A1 + A4A3'A2' + A4'A3'A2A1 + A4'A3A2A1'
+
+Completa: s1 = A4'A3'A2'A1' + A4'A3'A2'A1 + A4'A3'A2A1' + A4'A3'A2A1 + A4'A3A2'A1' + A4'A3A2A1 + A4A3'A2'A1' + A4A3'A2'A1
+Simplificacao: s1 = A4'A3'A2' + A4'A3'A2 + A4A3'A2' + A4'A3A2'A1' + A4'A3A2A1
+
+Completa: s2 = A4'A3'A2'A1' + A4'A3'A2'A1 + A4'A3'A2A1 + A4'A3A2'A1' + A4'A3A2'A1 + A4'A3A2A1' + A4'A3A2A1 + A4A3'A2'A1' + A4A3'A2'A1
+Simplificacao: s2 = A4'A3'A2' + A4'A3A2' + A4'A3A2 + A4A3'A2' + A4'A3'A2A1
+
+Completa: s3 = A4'A3'A2'A1' + A4'A3'A2A1' + A4'A3'A2A1 + A4'A3A2'A1 + A4'A3A2A1' + A4A3'A2'A1' + A4A3'A2'A1
+Simplificacao: s3 = A4'A3'A1' + A4'A3'A2A1 + A4'A3A2'A1 + A4'A3A2A1' + A4A3'A2'A1' + A4A3'A2'A1
+
+Completa: s4 = A4'A3'A2'A1' + A4'A3'A2A1' + A4'A3A2A1' + A4A3'A2'A1'
+Simplificacao: s4 = A4'A3'A1' + A4'A3A2A1' + A4A3'A2'A1'
+
+Completa: s5 = A4'A3'A2'A1' + A4'A3A2'A1' + A4'A3A2'A1 + A4'A3A2A1' + A4A3'A2'A1' + A4A3'A2'A1
+Simplificacao: s5 = A4'A2'A1' + A4'A2'A1 + A4'A3A2A1' + A4A3'A2'A1'
+
+Completa: s6 = A4'A3'A2A1' + A4'A3'A2A1 + A4'A3A2'A1' + A4'A3A2'A1 + A4'A3A2A1' + A4A3'A2'A1' + A4A3'A2'A1
+Simplificacao: s6 = A4'A3A2' + A4A3'A2' + A4'A3'A2 + A4'A3A2A1'
+
+```
+---
+
+
+
+
