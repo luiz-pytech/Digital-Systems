@@ -9,7 +9,7 @@ Este repositório contém todas as práticas e o projeto final desenvolvidos na 
 - `/pratica1-circuitos-combinacionais`:  
   → Implementação de um circuito combinacional para contar bits '1'.
 
-- `/pratica2-[Multiplexadores_Decodificadores]`:  
+- `/pratica2-Multiplexadores_Decodificadores`:  
   → [Implementação de portas lógicas e comportamental de Multiplexadores e um Decodificador de 7 segmentos]
 
 - `/projeto-final`:  
