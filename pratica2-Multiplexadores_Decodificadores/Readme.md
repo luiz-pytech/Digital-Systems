@@ -22,7 +22,7 @@
 - `/Multiplexadores`:  
   → Atividades relacionadas a implementação do MUX 2X1, MUX 4X1 e MUX 2X1 com entradas de 4bits.
 
-- `/Decodificadores`:  
+- `/Decodificador_7_segmentos`:  
   → Decodificador de 7 segmentos no display
 
 ---
