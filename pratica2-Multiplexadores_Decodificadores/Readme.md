@@ -32,7 +32,7 @@
 - [Mux 2x1 Comportamental](https://github.com/luiz-pytech/Praticas_Sistemas_Digitais/blob/main/pratica2-Multiplexadores_Decodificadores/Multiplexadores/Mux2x1_Comp.vhd)  
 - [Mux 2x1 Portas Lógicas](https://github.com/luiz-pytech/Praticas_Sistemas_Digitais/blob/main/pratica2-Multiplexadores_Decodificadores/Multiplexadores/Mux2x1_logic_gate.vhd)  
 - [Mux 4x1 com Mux 2x1](https://github.com/luiz-pytech/Praticas_Sistemas_Digitais/blob/main/pratica2-Multiplexadores_Decodificadores/Multiplexadores/mux4x1.vhd)  
-- [Mux 2x1 com entrada de 4bits]()  
+- [Mux 2x1 com entrada de 4bits](https://github.com/luiz-pytech/Praticas_Sistemas_Digitais/blob/main/pratica2-Multiplexadores_Decodificadores/Multiplexadores/Mux2x1_4bit.vhd)  
 
 ---
 
