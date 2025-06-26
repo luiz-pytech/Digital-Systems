@@ -12,6 +12,9 @@ Este repositório contém todas as práticas e o projeto final desenvolvidos na 
 - `/pratica2-Multiplexadores_Decodificadores`:  
   → [Implementação de portas lógicas e comportamental de Multiplexadores e um Decodificador de 7 segmentos]
 
+- `/pratica3-Pacemaker`:  
+  → [Implementação de um marca-passo em portas lógicas e comportamental]
+
 - `/projeto-final`:  
   → Desenvolvimento de um RTL, aplicando todos os conceitos aprendidos na disciplina.
 
