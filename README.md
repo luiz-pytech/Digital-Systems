@@ -10,10 +10,10 @@ Este repositório contém todas as práticas e o projeto final desenvolvidos na 
   → Implementação de um circuito combinacional para contar bits '1'.
 
 - `/pratica2-Multiplexadores_Decodificadores`:  
-  → [Implementação de portas lógicas e comportamental de Multiplexadores e um Decodificador de 7 segmentos]
+  → Implementação de portas lógicas e comportamental de Multiplexadores e um Decodificador de 7 segmentos
 
 - `/pratica3-Pacemaker`:  
-  → [Implementação de um marca-passo em portas lógicas e comportamental]
+  → Implementação de um marca-passo em portas lógicas e comportamental
 
 - `/projeto-final`:  
   → Desenvolvimento de um RTL, aplicando todos os conceitos aprendidos na disciplina.
