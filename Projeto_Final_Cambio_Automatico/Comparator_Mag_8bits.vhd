@@ -1,3 +1,6 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+
 entity Comparator_Mag_8bits is
     port(
         A, B: in std_logic_vector(7 downto 0);
