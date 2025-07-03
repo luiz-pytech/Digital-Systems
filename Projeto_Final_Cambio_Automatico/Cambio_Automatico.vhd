@@ -1,7 +1,44 @@
-library IEEE;
-use IEEE.STD_LOGIC_1164.ALL;
-
 entity Cambio_Automatico is
+
+port(
+      clk, rst: in std_logic;
+      throttle, brake: in std_logic;
+      gear_sel: in std_logic_vector(1 downto 0);
+      leds_speed: out std_logic_vector(7 downto 0);
+      switches_gear: out std_logic_vector(1 downto 0);
+      leds_gearD: out std_logic_vector(2 downto 0)
+
+);
+
+end Cambio_Automatico;
+
+
+architecture behav of Cambio_Automatico is
+
+-- Sinais dos comparadores do datapath para o controlador
+signal speed_eq_0_datapath_for_controlador : std_logic;
+signal speed_lt_20_datapath_for_controlador : std_logic;
+signal speed_lt_40_datapath_for_controlador : std_logic;
+signal speed_lt_60_datapath_for_controlador : std_logic;
+signal speed_lt_80_datapath_for_controlador : std_logic;
+signal speed_lt_100_datapath_for_controlador : std_logic;
+signal speed_eq_252_datapath_for_controlador : std_logic;
+
+-- Sinais dos clr e ld do controlador para o datapath
+signal ld_speed_controlador_for_datapath : std_logic;
+signal clr_speed_controlador_for_datapath: std_logic; 
+signal ld_gear_controlador_for_datapath: std_logic; 
+signal clr_gear_controlador_for_datapath : std_logic; 
+signal ld_gearD_controlador_for_datapath : std_logic; 
+signal clr_gearD_controlador_for_datapath : std_logic;
+
+-- Sinal de seleção de operação na velocidade (Incremento ou Decremento) do controlador para o datapath
+signal select_speed_op_controlador_for_datapath : std_logic;
+
+-- Sinal da marcha de Driver do controlador para o datapath
+signal gearD_controlador_for_datapath : std_logic;
+
+component Controlador_Cambio is
 port(
 	brake, throttle, speed_eq_0, speed_lt_20, speed_lt_40, speed_lt_60, speed_lt_80, speed_lt_100, speed_eq_255: in std_logic;
 	ld_speed, clr_speed, ld_gear, clr_gear, ld_gearD, clr_gearD: out std_logic;
@@ -11,190 +48,58 @@ port(
 	clk, rst : in std_logic
 );
 
-end Cambio_Automatico;
+end component;
 
-architecture behav of Cambio_Automatico is
-		type statetype is
-		(S_Park, S_Reverse, S_Neutral, S_Driver, S_WaitAction, S_Throttle, S_Brake);
-		signal currentstate, nextstate: statetype;
-		
-		begin
-			statereg: process(clk, rst)
-			begin
-			if (rst='1') then -- estado inicial
-			currentstate <= S_Park;
-			elsif (clk='1' and clk' event) then
-			currentstate <= nextstate;
-			end if;
-			end process;
-		
-		comblogic: process (currentstate, brake, throttle, speed_eq_0, gear, speed_lt_20, speed_lt_40, speed_lt_60, speed_lt_80, speed_lt_100, speed_eq_255)
 
-			begin
-			ld_speed <= '0';
-         clr_speed <= '0';
-         ld_gear <= '0';
-         clr_gear <= '0';
-         ld_gearD <= '0';
-         clr_gearD <= '0';
-         select_speed_op <= '0';
-         gearD <= "000";
-			case currentstate is
-				when S_Park =>
-					if (brake='1' and throttle = '0' and speed_eq_0 = '1') then
-						if(gear = "01") then
-							ld_speed <= '0';
-							clr_speed <= '0';
-							ld_gear <= '1';
-							clr_gear <= '0';
-							ld_gearD <= '0';
-							clr_gearD <= '0';
-							
-							nextstate <= S_Reverse;
-						else
-							nextstate <= S_Park;
-						end if;
-					end if;
-					
-				when S_Reverse =>
-					if (brake='1' and throttle = '0' and speed_eq_0 = '1') then
-						if(gear = "00") then
-							ld_speed <= '0';
-							clr_speed <= '0';
-							ld_gear <= '1';
-							clr_gear <= '0';
-							ld_gearD <= '0';
-							clr_gearD <= '0';
-							
-							nextstate <= S_Park;
-						elsif(gear = "10") then
-							ld_speed <= '0';
-							clr_speed <= '0';
-							ld_gear <= '1';
-							clr_gear <= '0';
-							ld_gearD <= '0';
-							clr_gearD <= '0';
-							nextstate <= S_Neutral;
-						end if;
-					end if;
-					
-				when S_Neutral =>
-					if (brake='1' and throttle = '0' and speed_eq_0 = '1') then
-						if(gear = "01") then
-							ld_speed <= '0';
-							clr_speed <= '0';
-							ld_gear <= '1';
-							clr_gear <= '0';
-							ld_gearD <= '0';
-							clr_gearD <= '0';
-							
-							nextstate <= S_Reverse;
-						elsif(gear = "11") then
-							ld_speed <= '0';
-							clr_speed <= '0';
-							ld_gear <= '1';
-							clr_gear <= '0';
-							ld_gearD <= '0';
-							clr_gearD <= '0';
-							nextstate <= S_Driver;
-						end if;
-					end if;
-					
-				when S_Driver =>
-					if (brake='1' and throttle = '0' and speed_eq_0 = '1') then
-						if(gear = "11") then
-							ld_speed <= '0';
-							clr_speed <= '1';
-							ld_gear <= '0';
-							clr_gear <= '0';
-							ld_gearD <= '1';
-							clr_gearD <= '0';
-							
-							nextstate <= S_WaitAction;
-						end if;
-					end if;
-					
-					when S_WaitAction =>
-					if (brake='1' and throttle = '0' and speed_eq_0 = '1') then
-							if(gear = "10") then
-								ld_speed <= '0';
-								clr_speed <= '0';
-								ld_gear <= '1';
-								clr_gear <= '0';
-								ld_gearD <= '0';
-								clr_gearD <= '0';
-								nextstate <= S_Neutral;	
-							else
-								ld_speed <= '1';
-								clr_speed <= '0';
-								ld_gearD <= '1';
-								clr_gearD <= '0';
-								select_speed_op <= '0';
-								
-								nextstate <= S_Brake;
-							end if;
-					elsif(brake='0' and throttle = '1' and speed_eq_0 = '1') then
-							ld_speed <= '1';
-							clr_speed <= '0';
-							ld_gearD <= '1';
-							clr_gearD <= '0';
-							select_speed_op <= '1';
-							
-							nextstate <= S_Throttle;
-					end if;
-					
-					when S_Brake =>
-					if (brake='1' and throttle = '0' and speed_eq_0 = '0') then
-					      select_speed_op <= '0';
-							ld_speed <= '1';
-							
-							if(speed_lt_20 = '1') then
-				             gearD <= '001';
-							elsif(speed_lt_40 = '1') then
-							    gearD <= '010';
-							elsif(speed_lt_60 = '1') then
-							    gearD <= '011';
-							elsif(speed_lt_80 = '1') then
-							    gearD <= '100';
-							elsif(speed_lt_100 = '1') then
-							    gearD <= '101';
-							else
-							    gearD <= '110';
-					      end if;
-							
-							if(brake = '0')
-							    nextstate <= S_WaitAction;
-							else
-							    nextstate <= S_Brake;
-							end if;
-					end if;
-					
-					when S_Throttle =>
-					if (brake='0' and throttle = '1' and speed_eq_255 = '0') then
-					      select_speed_op <= '0';
-							ld_speed <= '1';
-							
-							if(speed_lt_20 = '1') then
-				             gearD <= '001';
-							elsif(speed_lt_40 = '1') then
-							    gearD <= '010';
-							elsif(speed_lt_60 = '1') then
-							    gearD <= '011';
-							elsif(speed_lt_80 = '1') then
-							    gearD <= '100';
-							elsif(speed_lt_100 = '1') then
-							    gearD <= '101';
-							else
-							    gearD <= '110';
-					      end if;
-							
-							if(throttle = '0')
-							    nextstate <= S_WaitAction;
-							else
-							    nextstate <= S_Throttle;
-							end if;
-					end if;
-			end case;
-			end process;
+component datapath_cambio is
+port(
+    clk, rst: in std_logic;
+    gear: in std_logic_vector(1 downto 0);
+    gearD: in std_logic_vector(2 downto 0);
+    select_speed_op: in std_logic;
+    ld_speed, clr_speed: in std_logic;
+    ld_gear, clr_gear: in std_logic;
+    ld_gearD, clr_gearD: in std_logic;
+
+    speed: out std_logic_vector(7 downto 0);
+    out_gear: out std_logic_vector(1 downto 0);
+    out_gearD: out std_logic_vector(2 downto 0);
+
+   speed_eq_0   : out std_logic;
+   speed_lt_20  : out std_logic;
+   speed_lt_40  : out std_logic;
+   speed_lt_60  : out std_logic;
+   speed_lt_80  : out std_logic;
+   speed_lt_100 : out std_logic;
+   speed_eq_255 : out std_logic
+);
+
+begin
+controlador: Controlador_cambio port map( 
+        clk => clk, rst => rst,
+        brake => brake, 
+		  throttle => throttle,
+		  speed_eq_0 => speed_eq_0_datapath_for_controlador,
+		  speed_lt_20 => speed_lt_20_datapath_for_controlador,
+		  speed_lt_40 => speed_lt_40_datapath_for_controlador,
+		  speed_lt_60 => speed_lt_60_datapath_for_controlador,
+		  speed_lt_80 => speed_lt_80_datapath_for_controlador,
+		  speed_lt_100 => speed_lt_100_datapath_for_controlador,
+		  speed_eq_255 => speed_eq_255_datapath_for_controlador,
+		  ld_speed => ld_speed_controlador_for_datapath, 
+		  clr_speed => clr_speed_controlador_for_datapath, 
+		  ld_gear => ld_gear_controlador_for_datapath, 
+		  clr_gear => clr_gear_controlador_for_datapath, 
+		  ld_gearD => ld_gearD_controlador_for_datapath, 
+		  clr_gearD => clr_gearD_controlador_for_datapath,
+		  select_speed_op => select_speed_op_controlador_for_datapath,
+		  gear => switches_gear, gearD => gearD_controlador_for_datapath
+		  
+);
+
+datapath: datapath_cambio port map(
+        clk => clk, 
+		  rst => rst, 
+		  gear)
 
 end architecture behav;
