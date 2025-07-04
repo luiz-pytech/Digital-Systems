@@ -56,7 +56,7 @@ signal out_gearD_for_display: std_logic_vector(2 downto 0);
 
 component Controlador_Cambio is
 port(
-	brake, throttle, speed_eq_0, speed_lt_20, speed_lt_40, speed_lt_60, speed_lt_80, speed_lt_100, speed_eq_255: in std_logic;
+      brake, throttle, speed_eq_0, speed_lt_20, speed_lt_40, speed_lt_60, speed_lt_80, speed_lt_100, speed_eq_255: in std_logic;
 	ld_speed, clr_speed, ld_gear, clr_gear, ld_gearD, clr_gearD: out std_logic;
 	select_speed_op: out std_logic;
 	gear: in std_logic_vector(1 downto 0);
@@ -69,87 +69,87 @@ end component;
 
 component datapath_cambio is
 port(
-    clk, rst: in std_logic;
-    gear: in std_logic_vector(1 downto 0);
-    gearD: in std_logic_vector(2 downto 0);
-    select_speed_op: in std_logic;
-    ld_speed, clr_speed: in std_logic;
-    ld_gear, clr_gear: in std_logic;
-    ld_gearD, clr_gearD: in std_logic;
+      clk, rst: in std_logic;
+      gear: in std_logic_vector(1 downto 0);
+      gearD: in std_logic_vector(2 downto 0);
+      select_speed_op: in std_logic;
+      ld_speed, clr_speed: in std_logic;
+      ld_gear, clr_gear: in std_logic;
+      ld_gearD, clr_gearD: in std_logic;
 
-    speed: out std_logic_vector(7 downto 0);
-    out_gear: out std_logic_vector(1 downto 0);
-    out_gearD: out std_logic_vector(2 downto 0);
+      speed: out std_logic_vector(7 downto 0);
+      out_gear: out std_logic_vector(1 downto 0);
+      out_gearD: out std_logic_vector(2 downto 0);
 
-   speed_eq_0   : out std_logic;
-   speed_lt_20  : out std_logic;
-   speed_lt_40  : out std_logic;
-   speed_lt_60  : out std_logic;
-   speed_lt_80  : out std_logic;
-   speed_lt_100 : out std_logic;
-   speed_eq_255 : out std_logic
+      speed_eq_0   : out std_logic;
+      speed_lt_20  : out std_logic;
+      speed_lt_40  : out std_logic;
+      speed_lt_60  : out std_logic;
+      speed_lt_80  : out std_logic;
+      speed_lt_100 : out std_logic;
+      speed_eq_255 : out std_logic
 );
 
 end component;
 
 component DecoderGear is
 port(
-  G1,G0: in std_logic;
-  s0,s1,s2,s3,s4,s5,s6: out std_logic
+      G1,G0: in std_logic;
+      s0,s1,s2,s3,s4,s5,s6: out std_logic
 );
 end component;
 
 component DecoderGearD is 
 port(
-  G2, G1,G0: in std_logic;
-  s0,s1,s2,s3,s4,s5,s6: out std_logic
+      G2, G1,G0: in std_logic;
+      s0,s1,s2,s3,s4,s5,s6: out std_logic
 );
 end component;
 
 begin
 controlador: Controlador_cambio port map( 
-        clk => clk, rst => rst,
-        brake => brake, 
-		throttle => throttle,
-		speed_eq_0 => speed_eq_0_datapath_for_controlador,
-		speed_lt_20 => speed_lt_20_datapath_for_controlador,
-		speed_lt_40 => speed_lt_40_datapath_for_controlador,
-		speed_lt_60 => speed_lt_60_datapath_for_controlador,
-		speed_lt_80 => speed_lt_80_datapath_for_controlador,
-		speed_lt_100 => speed_lt_100_datapath_for_controlador,
-		speed_eq_255 => speed_eq_255_datapath_for_controlador,
-		ld_speed => ld_speed_controlador_for_datapath, 
-		clr_speed => clr_speed_controlador_for_datapath, 
-		ld_gear => ld_gear_controlador_for_datapath, 
-		clr_gear => clr_gear_controlador_for_datapath, 
-		ld_gearD => ld_gearD_controlador_for_datapath, 
-		clr_gearD => clr_gearD_controlador_for_datapath,
-		select_speed_op => select_speed_op_controlador_for_datapath,
-		gear => gear_datapath_for_controlador, gearD => gearD_controlador_for_datapath
+      clk => clk, rst => rst,
+      brake => brake, 
+	throttle => throttle,
+	speed_eq_0 => speed_eq_0_datapath_for_controlador,
+	speed_lt_20 => speed_lt_20_datapath_for_controlador,
+	speed_lt_40 => speed_lt_40_datapath_for_controlador,
+	speed_lt_60 => speed_lt_60_datapath_for_controlador,
+	speed_lt_80 => speed_lt_80_datapath_for_controlador,
+	speed_lt_100 => speed_lt_100_datapath_for_controlador,
+	speed_eq_255 => speed_eq_255_datapath_for_controlador,
+	ld_speed => ld_speed_controlador_for_datapath, 
+	clr_speed => clr_speed_controlador_for_datapath, 
+	ld_gear => ld_gear_controlador_for_datapath, 
+	clr_gear => clr_gear_controlador_for_datapath, 
+	ld_gearD => ld_gearD_controlador_for_datapath, 
+	clr_gearD => clr_gearD_controlador_for_datapath,
+	select_speed_op => select_speed_op_controlador_for_datapath,
+	gear => gear_datapath_for_controlador, gearD => gearD_controlador_for_datapath
 		  
 );
 
 datapath: datapath_cambio port map(
-            clk => clk, rst => rst, 
-	      gear => switches_gear,
-            gearD => gearD_controlador_for_datapath,
-            select_speed_op => select_speed_op_controlador_for_datapath,
-            ld_speed => ld_speed_controlador_for_datapath, 
-		clr_speed => clr_speed_controlador_for_datapath, 
-		ld_gear => ld_gear_controlador_for_datapath, 
-		clr_gear => clr_gear_controlador_for_datapath, 
-		ld_gearD => ld_gearD_controlador_for_datapath, 
-		clr_gearD => clr_gearD_controlador_for_datapath,
-            speed_eq_0 => speed_eq_0_datapath_for_controlador,
-		speed_lt_20 => speed_lt_20_datapath_for_controlador,
-		speed_lt_40 => speed_lt_40_datapath_for_controlador,
-		speed_lt_60 => speed_lt_60_datapath_for_controlador,
-		speed_lt_80 => speed_lt_80_datapath_for_controlador,
-		speed_lt_100 => speed_lt_100_datapath_for_controlador,
-		speed_eq_255 => speed_eq_255_datapath_for_controlador,
-            speed => speed_for_led,
-            out_gear=> out_gear_for_display,
-            out_gearD => out_gearD_for_display
+      clk => clk, rst => rst, 
+	gear => switches_gear,
+      gearD => gearD_controlador_for_datapath,
+      select_speed_op => select_speed_op_controlador_for_datapath,
+      ld_speed => ld_speed_controlador_for_datapath, 
+	clr_speed => clr_speed_controlador_for_datapath, 
+	ld_gear => ld_gear_controlador_for_datapath, 
+	clr_gear => clr_gear_controlador_for_datapath, 
+	ld_gearD => ld_gearD_controlador_for_datapath, 
+	clr_gearD => clr_gearD_controlador_for_datapath,
+      speed_eq_0 => speed_eq_0_datapath_for_controlador,
+	speed_lt_20 => speed_lt_20_datapath_for_controlador,
+	speed_lt_40 => speed_lt_40_datapath_for_controlador,
+	speed_lt_60 => speed_lt_60_datapath_for_controlador,
+	speed_lt_80 => speed_lt_80_datapath_for_controlador,
+	speed_lt_100 => speed_lt_100_datapath_for_controlador,
+	speed_eq_255 => speed_eq_255_datapath_for_controlador,
+      speed => speed_for_led,
+      out_gear=> out_gear_for_display,
+      out_gearD => out_gearD_for_display
       );
 
 Decoder_Alavanca: DecoderGear port map(
