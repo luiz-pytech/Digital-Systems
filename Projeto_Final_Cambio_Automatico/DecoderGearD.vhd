@@ -1,7 +1,7 @@
 entity DecoderGearD is
 port(
-  G2, G1,G0: in bit;
-  s0,s1,s2,s3,s4,s5,s6: out bit
+  G2, G1,G0: in std_logic;
+  s0,s1,s2,s3,s4,s5,s6: out std_logic
 );
 end DecoderGearD;
 
