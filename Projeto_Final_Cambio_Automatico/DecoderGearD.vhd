@@ -1,3 +1,5 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
 entity DecoderGearD is
 port(
   G2, G1,G0: in std_logic;

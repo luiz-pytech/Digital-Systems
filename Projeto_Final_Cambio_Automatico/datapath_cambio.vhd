@@ -1,5 +1,6 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.NUMERIC_STD.ALL;
 
 entity datapath_cambio is
 port(
@@ -91,8 +92,8 @@ end component;
 
 begin
 
-  speed_inc <= speed_out + 1;
-  speed_dec <= speed_out - 1;
+speed_inc <= std_logic_vector(unsigned(speed_out) + 1);
+speed_dec <= std_logic_vector(unsigned(speed_out) - 1);
   
 Mux_Speed: mux2x1_8b port map (A => speed_dec, B => speed_inc, S0 => select_speed_op, Q => new_speed);
 Registrador_Speed: Registrador8bits port map(clock => clk, load => ld_speed, clr => clr_speed, reg8_in => new_speed, reg8_out => speed_out);
