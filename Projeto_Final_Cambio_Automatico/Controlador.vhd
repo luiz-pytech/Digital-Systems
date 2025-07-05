@@ -2,7 +2,7 @@ library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
 
-entity Controlador_Cambio is
+entity Controlador is
 port(
     brake, throttle: in std_logic;
     gear: in std_logic_vector(1 downto 0);
@@ -13,9 +13,9 @@ port(
     out_gear: out std_logic_vector(1 downto 0);
     out_gearD: out std_logic_vector(2 downto 0)
 );
-end Controlador_Cambio;
+end Controlador;
 
-architecture behav of Controlador_Cambio is
+architecture behav of Controlador is
     -- State type declaration
     type statetype is (S_Park, S_Reverse, S_Neutral, S_Driver, S_WaitAction, S_Throttle, S_Brake);
     signal currentstate, nextstate: statetype;
@@ -204,7 +204,6 @@ begin
         ld_gearD <= '0';
         clr_gearD <= '0';
         select_speed_op <= '0';
-        gearD_int <= "001";
         
         case currentstate is
             when S_Park =>
@@ -244,6 +243,7 @@ begin
                     if(gear = "11") then
                         clr_speed <= '1';
                         ld_gearD <= '1';
+								gearD_int <= "001";
                         nextstate <= S_WaitAction;
                     end if;
                 end if;
@@ -254,10 +254,12 @@ begin
                         ld_gear <= '1';
                         nextstate <= S_Neutral;    
                     else
-                        ld_speed <= '1';
-                        ld_gearD <= '1';
-                        select_speed_op <= '0';
-                        nextstate <= S_Brake;
+                        if speed_eq_0 = '0' then  -- só decrementa se estiver acima de zero
+									  ld_speed <= '1';
+									  select_speed_op <= '0';
+								 end if;
+								 ld_gearD <= '1';
+								 nextstate <= S_Brake;
                     end if;
                 elsif(brake='0' and throttle = '1' and speed_eq_0 = '1') then
                     ld_speed <= '1';
@@ -267,22 +269,30 @@ begin
                 end if;
                 
             when S_Brake =>
-                if (brake='1' and throttle = '0' and speed_eq_0 = '0') then
-                    select_speed_op <= '0';
-                    ld_speed <= '1';
+                if (brake='1' and throttle = '0') then
+                    if speed_eq_0 = '0' then
+								 select_speed_op <= '0';
+								 ld_speed <= '1';
+							end if;
                     
                     if(speed_eq_0 = '1' or speed_lt_20 = '1') then
                         gearD_int <= "001";
+								ld_gearD <= '1';
                     elsif(speed_lt_40 = '1') then
                         gearD_int <= "010";
+								ld_gearD <= '1';
                     elsif(speed_lt_60 = '1') then
                         gearD_int <= "011";
+								ld_gearD <= '1';
                     elsif(speed_lt_80 = '1') then
                         gearD_int <= "100";
+								ld_gearD <= '1';
                     elsif(speed_lt_100 = '1') then
                         gearD_int <= "101";
+								ld_gearD <= '1';
                     else
                         gearD_int <= "110";
+								ld_gearD <= '1';
                     end if;
                     
                     if(brake = '0') then
@@ -299,16 +309,22 @@ begin
                     
                     if(speed_eq_0 = '1' or speed_lt_20 = '1') then
                         gearD_int <= "001";
+								ld_gearD <= '1';
                     elsif(speed_lt_40 = '1') then
                         gearD_int <= "010";
+								ld_gearD <= '1';
                     elsif(speed_lt_60 = '1') then
                         gearD_int <= "011";
+								ld_gearD <= '1';
                     elsif(speed_lt_80 = '1') then
                         gearD_int <= "100";
+								ld_gearD <= '1';
                     elsif(speed_lt_100 = '1') then
                         gearD_int <= "101";
+								ld_gearD <= '1';
                     else
                         gearD_int <= "110";
+								ld_gearD <= '1';
                     end if;
                     
                     if(throttle = '0') then
