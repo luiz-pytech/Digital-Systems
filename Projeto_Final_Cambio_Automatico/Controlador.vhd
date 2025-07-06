@@ -8,7 +8,6 @@ port(
     gear: in std_logic_vector(1 downto 0);
     clk, rst : in std_logic;
     
-    -- Outputs to external world
     speed: out std_logic_vector(7 downto 0);
     out_gear: out std_logic_vector(1 downto 0);
     out_gearD: out std_logic_vector(2 downto 0)
@@ -16,20 +15,16 @@ port(
 end Controlador;
 
 architecture behav of Controlador is
-    -- State type declaration
     type statetype is (S_Park, S_Reverse, S_Neutral, S_Driver, S_WaitAction, S_Throttle, S_Brake);
     signal currentstate, nextstate: statetype;
     
-    -- Internal signals
     signal ld_speed, clr_speed, ld_gear, clr_gear, ld_gearD, clr_gearD: std_logic;
     signal select_speed_op: std_logic;
     signal gearD_int: std_logic_vector(2 downto 0);
-    
-    -- Speed comparison signals
+
     signal speed_eq_0, speed_lt_20, speed_lt_40, speed_lt_60, speed_lt_80, speed_lt_100, speed_eq_255: std_logic;
     signal speed_out: std_logic_vector(7 downto 0);
     
-    -- Constants for comparison
     signal const_0    : std_logic_vector(7 downto 0) := "00000000";
     signal const_20   : std_logic_vector(7 downto 0) := "00010100";
     signal const_40   : std_logic_vector(7 downto 0) := "00101000";
@@ -38,7 +33,7 @@ architecture behav of Controlador is
     signal const_100  : std_logic_vector(7 downto 0) := "01100100";
     signal const_255  : std_logic_vector(7 downto 0) := "11111111";
     
-    -- Datapath components
+    -- Componentes do DATAPATH
     component Registrador2bits is
     port(
         clock, load, clr: in std_logic;
@@ -78,13 +73,11 @@ architecture behav of Controlador is
     );
     end component;
     
-    -- Internal signals for datapath
     signal speed_inc, speed_dec, new_speed: std_logic_vector(7 downto 0);
     signal gear_reg_out: std_logic_vector(1 downto 0);
     signal gearD_reg_out: std_logic_vector(2 downto 0);
     
 begin
-    -- Datapath instantiation
     speed_inc <= std_logic_vector(unsigned(speed_out) + 1);
     speed_dec <= std_logic_vector(unsigned(speed_out) - 1);
     
@@ -174,13 +167,11 @@ begin
         eq => speed_eq_255, 
         gt => open
     );
-    
-    -- Connect outputs
+ 
     speed <= speed_out;
     out_gear <= gear_reg_out;
     out_gearD <= gearD_reg_out;
     
-    -- State register
     statereg: process(clk, rst)
     begin
         if (rst='1') then -- estado inicial
@@ -190,12 +181,11 @@ begin
         end if;
     end process;
     
-    -- Combinational logic
+    -- Logica para troca de estado e atualizao de marcha
     comblogic: process (currentstate, brake, throttle, speed_eq_0, gear, 
                         speed_lt_20, speed_lt_40, speed_lt_60, speed_lt_80, 
                         speed_lt_100, speed_eq_255)
     begin
-        -- Default values
         nextstate <= currentstate;
         ld_speed <= '0';
         clr_speed <= '0';
