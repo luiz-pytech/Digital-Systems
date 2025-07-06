@@ -232,6 +232,7 @@ begin
                 if (brake='1' and throttle = '0' and speed_eq_0 = '1') then
                     if(gear = "11") then
                         clr_speed <= '1';
+								ld_gear <= '1';
                         ld_gearD <= '1';
 								gearD_int <= "001";
                         nextstate <= S_WaitAction;
@@ -239,18 +240,16 @@ begin
                 end if;
                 
             when S_WaitAction =>
-                if (brake='1' and throttle = '0' and speed_eq_0 = '1') then
-                    if(gear = "10") then
-                        ld_gear <= '1';
-                        nextstate <= S_Neutral;    
-                    else
-                        if speed_eq_0 = '0' then  -- só decrementa se estiver acima de zero
-									  ld_speed <= '1';
-									  select_speed_op <= '0';
-								 end if;
-								 ld_gearD <= '1';
-								 nextstate <= S_Brake;
-                    end if;
+					 if (brake='1' and throttle = '0') then
+						  if (gear = "10") then
+								ld_gear <= '1';
+								ld_gearD <= '1';
+								nextstate <= S_Neutral;    
+						  elsif (speed_eq_0 = '0') then
+								select_speed_op <= '0';
+								ld_speed <= '1';
+								nextstate <= S_Brake;
+						  end if;
                 elsif(brake='0' and throttle = '1' and speed_eq_0 = '1') then
                     ld_speed <= '1';
                     ld_gearD <= '1';
@@ -285,7 +284,7 @@ begin
 								ld_gearD <= '1';
                     end if;
                     
-                    if(brake = '0') then
+                    if(speed_eq_0 = '1' or brake = '0') then
                         nextstate <= S_WaitAction;
                     else
                         nextstate <= S_Brake;
