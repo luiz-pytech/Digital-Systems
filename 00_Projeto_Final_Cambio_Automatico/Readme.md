@@ -76,7 +76,7 @@ As regras para a troca de marcha são:
 
 O vídeo abaixo demonstra o projeto final implementado e funcionando na placa FPGA. As entradas (velocidade e modo) são controladas através de chaves, e as saídas são exibidas nos displays de 7 segmentos da placa.
 
-**[Link para o vídeo da demonstração no YouTube](URL_DO_SEU_VIDEO_AQUI)**
+**[Link para o vídeo da demonstração no YouTube](https://youtu.be/nhwd4rPxtCY)**
 
 ---
 
